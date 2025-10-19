@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load cart_filters %}
+
+<div class="p-3">
+  <div class="container">
+    <!-- Header -->
+    <div class="row mt-3">
+      <div class="col mx-auto mb-3 text-center">
+        <h2>Shopping Cart</h2>
+        <hr />
+      </div>
+    </div>
+
+    <!-- Cart table -->
+    <div class="row m-1">
+      <table class="table table-bordered table-striped text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for movie in template_data.movies_in_cart %}
+          <tr>
+            <td>{{ movie.id }}</td>
+            <td>{{ movie.name }}</td>
+            <td>${{ movie.price }}</td>
+            <td>{{ request.session.cart|get_quantity:movie.id }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4"><em>Your cart is empty.</em></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Checkout form -->
+    <div class="row">
+      <div class="text-end">
+        <form action="{% url 'cart.purchase' %}" method="POST" class="d-inline-block text-end">
+          {% csrf_token %}
+
+          <!-- ZIP Code input -->
+          <div class="mb-3 text-end">
+            <label for="zip" class="form-label"><strong>Enter ZIP Code:</strong></label>
+            <input
+              type="text"
+              name="zip"
+              id="zip"
+              class="form-control d-inline-block w-auto text-center"
+              maxlength="10"
+              placeholder="30332"
+              required
+            >
+          </div>
+
+          <!-- Total + Buttons -->
+          <div class="mt-2">
+            <span class="btn btn-outline-secondary mb-2 disabled">
+              <strong>Total to pay:</strong> ${{ template_data.cart_total }}
+            </span>
+            <button type="submit" class="btn btn-dark text-white mb-2">
+              Purchase
+            </button>
+
+            {% if template_data.movies_in_cart|length > 0 %}
+              <a href="{% url 'cart.clear' %}" class="btn btn-danger mb-2">
+                Remove all movies from Cart
+              </a>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

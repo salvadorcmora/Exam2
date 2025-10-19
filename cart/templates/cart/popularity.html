@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Local Popularity (List)</h1>
+    <a class="btn btn-primary" href="{% url 'cart.popularity_map' %}">View on map</a>
+  </div>
+  <p class="text-muted mb-4">Top movies by region (ZIP3). Click “View on map” to see markers.</p>
+
+  <div class="row">
+    {% for group in template_data.regions %}
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-header fw-bold">
+            Region: {{ group.region }}
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for t in group.top %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ forloop.counter }}. {{ t.movie_name }}</span>
+                <span class="badge bg-secondary">{{ t.total }}</span>
+              </li>
+            {% empty %}
+              <li class="list-group-item">No data yet.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12"><em>No regions to show yet.</em></div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

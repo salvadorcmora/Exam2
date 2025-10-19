@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+        <h2>About</h2>
+        <hr />
+        <p>Welcome, Yellow Jackets! At the GT Movies Store, we've engineered a vast digital library, 
+          ensuring there's something for every tech-savvy movie lover. Browse our extensive collection of films, 
+          from gold-standard classics to the latest high-tech blockbusters. With just a few clicks, 
+          you can purchase your favorite titles and instantly stream them in stunning high-definition—perfect 
+          for those late-night study breaks.</p>
+        <p>Discover the innovation of our platform, where you have the flexibility to watch movies on your preferred device, 
+          whether it's your laptop in the CULC, a smart TV, or a tablet, finding your next movie night pick has never been more efficient.</p>
+      </div>
+      <div class="col-md-6 mx-auto mb-3 text-center">
+        <img src="{% static 'img/about.jpg' %}" class="max-width-100" alt="about" />
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
